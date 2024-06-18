@@ -34,8 +34,8 @@ region = st.sidebar.multiselect(
 )
 
 # Input tanggal awal dan akhir
-start_date = st.sidebar.date_input("Tanggal Mulai", df["TglOrder"].min())
-end_date = st.sidebar.date_input("Tanggal Akhir", df["TglOrder"].max())
+start_date = st.sidebar.date_input("Tanggal Mulai", min(df["TglOrder"]))
+end_date = st.sidebar.date_input("Tanggal Akhir", max(df["TglOrder"]))
 
 # Konversi kolom tanggal ke format datetime
 df["TglOrder"] = pd.to_datetime(df["TglOrder"])
