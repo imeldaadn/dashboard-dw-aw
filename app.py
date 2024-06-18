@@ -129,14 +129,18 @@ def analysis2():
         x_axis = "TotalPenjualan"
         y_axis = "JmlPajak"
         
-        correlation = df_selection[x_axis].corr(df_selection[y_axis])
-        st.write(f"Korelasi antara {x_axis} dan {y_axis} adalah {correlation:.2f}.")
-        if correlation > 0:
-            st.write(f"Ini menunjukkan korelasi positif, artinya ketika {x_axis} meningkat, {y_axis} cenderung meningkat.")
-        elif correlation < 0:
-            st.write(f"Ini menunjukkan korelasi negatif, artinya ketika {x_axis} meningkat, {y_axis} cenderung menurun.")
+        # Pastikan kolom yang digunakan ada dalam df_selection
+        if x_axis in df_selection.columns and y_axis in df_selection.columns:
+            correlation = df_selection[[x_axis, y_axis]].corr().iloc[0, 1]
+            st.write(f"Korelasi antara {x_axis} dan {y_axis} adalah {correlation:.2f}.")
+            if correlation > 0:
+                st.write(f"Ini menunjukkan korelasi positif, artinya ketika {x_axis} meningkat, {y_axis} cenderung meningkat.")
+            elif correlation < 0:
+                st.write(f"Ini menunjukkan korelasi negatif, artinya ketika {x_axis} meningkat, {y_axis} cenderung menurun.")
+            else:
+                st.write(f"Tidak ada korelasi antara {x_axis} dan {y_axis}.")
         else:
-            st.write(f"Tidak ada korelasi antara {x_axis} dan {y_axis}.")
+            st.write(f"Kolom {x_axis} atau {y_axis} tidak ditemukan dalam data yang dipilih.")
 
 ######################################################################################################################
 # Fungsi untuk meanmpilkan grafik pie chart - composition
