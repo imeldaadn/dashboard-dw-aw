@@ -60,8 +60,8 @@ def view_all_data():
         st.error(f"Error: {err}")
         data = []
     finally:
-        if c:
+        if 'c' in locals() and c:
             c.close()
-        if conn:
+        if 'conn' in locals() and conn:
             conn.close()
     return data
