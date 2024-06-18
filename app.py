@@ -81,9 +81,13 @@ def graphs1():
 # Fungsi untuk analisis data
 def analysis1():
     with st.expander("Analysis", expanded=False):
-        total_sales_by_region = df_selection.groupby("Wilayah")[["TotalPenjualan"]].sum().sort_values(by="TotalPenjualan")
-        max_region = total_sales_by_region.idxmax().values[0]
-        min_region = total_sales_by_region.idxmin().values[0]
+        total_sales_by_region["TotalPenjualan"] = pd.to_numeric(total_sales_by_region["TotalPenjualan"], errors="coerce")
+        max_region = total_sales_by_region["TotalPenjualan"].idxmax()
+        min_region = total_sales_by_region["TotalPenjualan"].idxmin()
+
+        # total_sales_by_region = df_selection.groupby("Wilayah")[["TotalPenjualan"]].sum().sort_values(by="TotalPenjualan")
+        # max_region = total_sales_by_region.idxmax().values[0]
+        # min_region = total_sales_by_region.idxmin().values[0]
         total_sales = total_sales_by_region["TotalPenjualan"].sum()
         
         st.markdown('**Total Penjualan**')
