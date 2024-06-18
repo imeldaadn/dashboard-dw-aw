@@ -104,32 +104,38 @@ def graphs2():
     x_axis = "TotalPenjualan"
     y_axis = "JmlPajak"
     
-    fig_scatter = px.scatter(
-        df_selection,
-        x=x_axis,
-        y=y_axis,
-        color="Wilayah",
-        title=f"<b>Scatter Plot: {x_axis} vs {y_axis} - Relationship</b>",
-        labels={x_axis: x_axis, y_axis: y_axis}
-    )
-    fig_scatter.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="black"),
-        yaxis=dict(showgrid=True, gridcolor='#cecdcd'),
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        xaxis=dict(showgrid=True, gridcolor='#cecdcd'),
-    )
-    st.plotly_chart(fig_scatter)
+    # Pastikan kolom TotalPenjualan dan JmlPajak dalam tipe data numerik
+    df_selection['TotalPenjualan'] = pd.to_numeric(df_selection['TotalPenjualan'], errors='coerce')
+    df_selection['JmlPajak'] = pd.to_numeric(df_selection['JmlPajak'], errors='coerce')
+    
+    if x_axis in df_selection.columns and y_axis in df_selection.columns:
+        fig_scatter = px.scatter(
+            df_selection,
+            x=x_axis,
+            y=y_axis,
+            color="Wilayah",
+            title=f"<b>Scatter Plot: {x_axis} vs {y_axis} - Relationship</b>",
+            labels={x_axis: x_axis, y_axis: y_axis}
+        )
+        fig_scatter.update_layout(
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="black"),
+            yaxis=dict(showgrid=True, gridcolor='#cecdcd'),
+            paper_bgcolor='rgba(0, 0, 0, 0)',
+            xaxis=dict(showgrid=True, gridcolor='#cecdcd'),
+        )
+        st.plotly_chart(fig_scatter)
+    else:
+        st.write(f"Kolom {x_axis} atau {y_axis} tidak ditemukan dalam data yang dipilih.")
 
 # Fungsi untuk analisis data
 def analysis2():
     with st.expander("Analysis", expanded=False):
-        # Scatter Plot
+        # Scatter Plot Analysis
         st.markdown('**Scatter Plot Analysis**')
         x_axis = "TotalPenjualan"
         y_axis = "JmlPajak"
         
-        # Pastikan kolom yang digunakan ada dalam df_selection
         if x_axis in df_selection.columns and y_axis in df_selection.columns:
             try:
                 correlation = df_selection[[x_axis, y_axis]].corr().iloc[0, 1]
