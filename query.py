@@ -10,11 +10,11 @@ import mysql.connector
 def view_all_data():
     try:
         conn = mysql.connector.connect(
-            host="localhost",
-            port="3306",
-            user="root",
-            passwd="",
-            db="dump-dw_aw-202403050806"
+            host=st.secrets["DB_HOST"],
+            port=st.secrets["DB_PORT"],
+            user=st.secrets["DB_USER"],
+            passwd=st.secrets["DB_PASSWORD"],
+            db=st.secrets["DB_NAME"]
         )
         c = conn.cursor()
         query = '''
